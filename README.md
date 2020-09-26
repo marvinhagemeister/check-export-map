@@ -2,6 +2,33 @@
 
 A simple cli tool that checks if the export map defined in a `package.json` file is correct and that the referenced files/folders exist.
 
+Example of a valid export map in `package.json`:
+
+```json
+{
+  "name": "preact",
+  "exports": {
+    ".": {
+      "browser": "./dist/preact.module.js",
+      "umd": "./dist/preact.umd.js",
+      "import": "./dist/preact.mjs",
+      "require": "./dist/preact.js"
+    },
+    "./compat": {
+      "browser": "./compat/dist/compat.module.js",
+      "umd": "./compat/dist/compat.umd.js",
+      "require": "./compat/dist/compat.js",
+      "import": "./compat/dist/compat.mjs"
+    },
+    "./compat/server": {
+      "require": "./compat/server.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  }
+}
+```
+
 ## Usage
 
 Add the package via:
