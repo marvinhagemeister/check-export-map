@@ -1,0 +1,10 @@
+{
+	"name": "foo",
+	"exports": {
+		".": {
+			"import": "./foo.js"
+		},
+		"./package.json": "./package.json",
+		"./": "./"
+	}
+}
