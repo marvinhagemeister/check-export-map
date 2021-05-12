@@ -29,10 +29,6 @@ Options
 	process.exit(0);
 }
 
-if (!files.length) {
-	files.push(path.join(process.cwd(), args));
-}
-
 if (files.length === 0) {
 	files.push(path.join(process.cwd(), "package.json"));
 }
