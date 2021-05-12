@@ -53,10 +53,21 @@ function validateValue(relative, dir, entry, value, type) {
 			`File paths must be relative and start with a dot. Got "${value}" instead`,
 		);
 	} else if (!fs.existsSync(path.join(dir, value))) {
-		error(
-			relative,
-			`File not found for "${entry}" ${type ? type + ": " : ""}${value}`,
-		);
+		if (entry.indexOf("*") !== -1 && value.indexOf("*") !== -1) {
+        		const subPath = value.substr(0, value.indexOf("*"));
+
+             		if (!fs.existsSync(path.join(dir, subPath.substr(0, subPath.lastIndexOf("/") + 1)))) {
+             			error(
+					relative,
+					`Invalid subpath for "${entry}" ${type ? type + ": " : ""}${value}`
+				);
+        		}
+		} else {
+			error(
+				relative,
+				`File not found for "${entry}" ${type ? type + ": " : ""}${value}`
+			);
+		}
 	}
 }
 
