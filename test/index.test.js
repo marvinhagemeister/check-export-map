@@ -90,4 +90,29 @@ describe("check-export-map", () => {
 			assert(/FAIL/.test(out), out);
 		});
 	});
+
+	describe("Wildcards", () => {
+		it("should throw if '*' is not at the end", async () => {
+			const out = await run("wildcard-invalid/package.json");
+			assert(/FAIL/.test(out), out);
+			assert(/wildcard character/.test(out), out);
+		});
+
+		it("should check that both entry and value have an asteriks", async () => {
+			const out = await run("wildcard-invalid-2/package.json");
+			assert(/FAIL/.test(out), out);
+			assert(/Didn't find a wildcard/.test(out), out);
+		});
+
+		it("should check that resolved directory exists", async () => {
+			const out = await run("wildcard-invalid-3/package.json");
+			assert(/FAIL/.test(out), out);
+			assert(/Folder .* doesn't exist/.test(out), out);
+		});
+
+		it("should pass", async () => {
+			const out = await run("wildcard/package.json");
+			assert(/PASS/.test(out), out);
+		});
+	});
 });

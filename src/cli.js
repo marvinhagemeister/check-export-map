@@ -52,26 +52,47 @@ function validateValue(relative, dir, entry, value, type) {
 			relative,
 			`File paths must be relative and start with a dot. Got "${value}" instead`,
 		);
-	} else if (!fs.existsSync(path.join(dir, value))) {
-		if (entry.indexOf("*") !== -1 && value.indexOf("*") !== -1) {
-			const subPath = value.substr(0, value.indexOf("*"));
-
-			if (
-				!fs.existsSync(
-					path.join(dir, subPath.substr(0, subPath.lastIndexOf("/") + 1)),
-				)
-			) {
-				error(
-					relative,
-					`Invalid subpath for "${entry}" ${type ? type + ": " : ""}${value}`,
-				);
-			}
-		} else {
+	} else if (entry.indexOf("*") > -1) {
+		// Wildcard MUST be placed at the end
+		if (!entry.endsWith("*")) {
 			error(
 				relative,
-				`File not found for "${entry}" ${type ? type + ": " : ""}${value}`,
+				`Invalid entry "${entry}". A wildcard character must always be positioned at the end`,
 			);
 		}
+		// The value must include a wildcard character
+		else if (value.indexOf("*") === -1) {
+			error(
+				relative,
+				`Invalid value for entry "${entry}". Didn't find a wildcard character in "${value}".`,
+			);
+		}
+
+		// Check that the resolved directory exists
+		let subPath = value.substr(0, value.indexOf("*"));
+
+		// Ensure we don't check partial filenames, just the directory
+		if (!subPath.endsWith(path.posix.sep)) {
+			subPath = path.posix.dirname(subPath);
+		}
+
+		// Normalize path separator (for windows)
+		subPath = subPath.split(path.posix.sep).join(path.sep);
+
+		const resolvedDir = path.join(dir, subPath);
+		if (!fs.existsSync(resolvedDir)) {
+			error(
+				relative,
+				`Invalid subpath for "${entry}" ${
+					type ? type + ": " : ""
+				}${value}. Folder "${resolvedDir}" doesn't exist.`,
+			);
+		}
+	} else if (!fs.existsSync(path.join(dir, value))) {
+		error(
+			relative,
+			`File not found for "${entry}" ${type ? type + ": " : ""}${value}`,
+		);
 	}
 }
 

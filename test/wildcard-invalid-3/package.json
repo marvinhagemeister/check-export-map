@@ -1,0 +1,9 @@
+{
+	"name": "foo",
+	"exports": {
+		".": "./foo.js",
+		"./bar/*": "./foo/*.js",
+		"./package.json": "./package.json",
+		"./": "./"
+	}
+}
