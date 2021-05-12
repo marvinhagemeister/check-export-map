@@ -54,18 +54,22 @@ function validateValue(relative, dir, entry, value, type) {
 		);
 	} else if (!fs.existsSync(path.join(dir, value))) {
 		if (entry.indexOf("*") !== -1 && value.indexOf("*") !== -1) {
-        		const subPath = value.substr(0, value.indexOf("*"));
+			const subPath = value.substr(0, value.indexOf("*"));
 
-             		if (!fs.existsSync(path.join(dir, subPath.substr(0, subPath.lastIndexOf("/") + 1)))) {
-             			error(
+			if (
+				!fs.existsSync(
+					path.join(dir, subPath.substr(0, subPath.lastIndexOf("/") + 1)),
+				)
+			) {
+				error(
 					relative,
-					`Invalid subpath for "${entry}" ${type ? type + ": " : ""}${value}`
+					`Invalid subpath for "${entry}" ${type ? type + ": " : ""}${value}`,
 				);
-        		}
+			}
 		} else {
 			error(
 				relative,
-				`File not found for "${entry}" ${type ? type + ": " : ""}${value}`
+				`File not found for "${entry}" ${type ? type + ": " : ""}${value}`,
 			);
 		}
 	}
