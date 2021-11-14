@@ -101,7 +101,6 @@ for (const file of files) {
 
 	const seen = new Set();
 	let hasDotEntry = false;
-	let hasRootEntry = false;
 	let hasPackageJsonEntry = false;
 
 	for (const entry in pkg.exports) {
@@ -131,8 +130,6 @@ for (const file of files) {
 				);
 			}
 		} else if (entry === "./") {
-			hasRootEntry = true;
-
 			if (value !== "./") {
 				error(
 					relative,
