@@ -165,8 +165,6 @@ for (const file of files) {
 		error(relative, 'Export map does not have a "." entry.');
 	} else if (!hasPackageJsonEntry) {
 		error(relative, 'Export map does not have a "./package.json" entry.');
-	} else if (!hasRootEntry) {
-		error(relative, 'Export map does not have a "./" entry.');
 	}
 
 	console.log(`${success("PASS")} ${relative}`);
