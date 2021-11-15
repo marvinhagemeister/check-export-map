@@ -7,7 +7,6 @@ Rules:
 - Entries must start with a `.`
 - Must have the following entries:
   - `.` = main export when you do `import * as foo from "my-package"`
-  - `./` = allow deep import paths
   - `./package.json` = allow user to import the package's `package.json` file
 - Entry type `import` must end with `.mjs`
 - Entry file paths must be relative and start with a `.`
@@ -34,8 +33,7 @@ Example of a valid export map in `package.json`:
     "./compat/server": {
       "require": "./compat/server.js"
     },
-    "./package.json": "./package.json",
-    "./": "./"
+    "./package.json": "./package.json"
   }
 }
 ```
