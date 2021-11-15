@@ -59,11 +59,6 @@ describe("check-export-map", () => {
 		assert(/FAIL/.test(out), out);
 	});
 
-	it("should fail if there is no './' entry", async () => {
-		const out = await run("no-root-entry/package.json");
-		assert(/FAIL/.test(out), out);
-	});
-
 	it("should fail if './' entry value is not './'", async () => {
 		const out = await run("wrong-root-entry/package.json");
 		assert(/FAIL/.test(out), out);
