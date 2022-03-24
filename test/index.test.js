@@ -34,6 +34,11 @@ describe("check-export-map", () => {
 		assert(/Options/.test(out));
 	});
 
+	it("should skip file if no 'exports' field is found", async () => {
+		const out = await run("no-exports/package.json");
+		assert(/Skipping/.test(out));
+	});
+
 	it("should pass all checks", async () => {
 		const out = await run("success/package.json");
 		assert(/PASS/.test(out));

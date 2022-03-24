@@ -96,6 +96,11 @@ console.log("Checking export maps...");
 
 for (const file of files) {
 	const pkg = readJSON(file);
+	if (!("exports" in pkg)) {
+		console.log(`No "exports" field found in ${file}. Skipping...`);
+		continue;
+	}
+
 	const dir = path.dirname(file);
 	const relative = path.relative(process.cwd(), file);
 
