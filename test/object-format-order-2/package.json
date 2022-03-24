@@ -1,0 +1,17 @@
+{
+	"name": "foo",
+	"exports": {
+		".": {
+			"browser": "./foo.browser.js",
+			"umd": "./foo.umd.js",
+			"import": "./foo.import.mjs",
+			"require": "./foo.require.js"
+		},
+		"./bar": {
+			"browser": "./foo.browser.js",
+			"require": "./foo.require.js",
+			"import": "./foo.import.mjs"
+		},
+		"./package.json": "./package.json"
+	}
+}

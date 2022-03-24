@@ -108,6 +108,35 @@ for (const file of files) {
 	let hasDotEntry = false;
 	let hasPackageJsonEntry = false;
 
+	/**
+	 * Ensure that the order of formats for package entries is consistent
+	 * as node will pick the first matching format. So the order of formats
+	 * matter for node...
+	 * @type {Map<string, number>}
+	 */
+	const order = new Map();
+
+	// ...for that find the entry with the most formats
+	let biggestEntry;
+	let biggestEntrySize = 0;
+	for (const entry in pkg.exports) {
+		const value = pkg.exports[entry];
+		if (typeof value !== "object") continue;
+
+		const size = Object.keys(value).length;
+		if (size > biggestEntrySize) {
+			biggestEntrySize = size;
+			biggestEntry = value;
+		}
+	}
+
+	if (biggestEntry !== undefined) {
+		let i = 0;
+		for (const format in biggestEntry) {
+			order.set(format, i++);
+		}
+	}
+
 	for (const entry in pkg.exports) {
 		if (seen.has(entry)) {
 			error(relative, `Duplicate entry "${entry}".`);
@@ -146,7 +175,26 @@ for (const file of files) {
 		if (typeof value === "string") {
 			validateValue(relative, dir, entry, value);
 		} else {
+			let lastOrder = -1;
+
 			for (const type in value) {
+				let newOrder = order.get(type);
+				if (newOrder < lastOrder) {
+					const expected = Array.from(order.keys())
+						.map(f => `"${f}"`)
+						.join(", ");
+					const actual = Array.from(Object.keys(value))
+						.map(f => `"${f}"`)
+						.join(", ");
+
+					error(
+						relative,
+						`Inconsistent ordering of entry formats. Expected order is ${expected}, but got ${actual}`,
+					);
+				}
+
+				lastOrder = newOrder;
+
 				if (type.startsWith(".")) {
 					error(
 						relative,

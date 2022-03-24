@@ -89,6 +89,25 @@ describe("check-export-map", () => {
 			const out = await run("object-mjs/package.json");
 			assert(/FAIL/.test(out), out);
 		});
+
+		describe("Format ordering", () => {
+			it("should ensure a consistent order for formats", async () => {
+				const out = await run("object-format-order-1/package.json");
+				assert(/FAIL/.test(out), out);
+				assert(/Expected order/.test(out), out);
+			});
+
+			it("should ensure a consistent order for formats", async () => {
+				const out = await run("object-format-order-2/package.json");
+				assert(/FAIL/.test(out), out);
+				assert(/Expected order/.test(out), out);
+			});
+
+			it("should ensure a consistent order for formats", async () => {
+				const out = await run("object-format-order-3/package.json");
+				assert(/PASS/.test(out), out);
+			});
+		});
 	});
 
 	describe("Wildcards", () => {
