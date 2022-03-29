@@ -27,8 +27,8 @@ Example of a valid export map in `package.json`:
     "./compat": {
       "browser": "./compat/dist/compat.module.js",
       "umd": "./compat/dist/compat.umd.js",
-      "require": "./compat/dist/compat.js",
-      "import": "./compat/dist/compat.mjs"
+      "import": "./compat/dist/compat.mjs",
+      "require": "./compat/dist/compat.js"
     },
     "./compat/server": {
       "require": "./compat/server.js"
