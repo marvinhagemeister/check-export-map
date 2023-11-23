@@ -85,9 +85,14 @@ describe("check-export-map", () => {
 			assert(/FAIL/.test(out), out);
 		});
 
-		it("should fail if 'import' entry type value doesn't end with .mjs", async () => {
-			const out = await run("object-mjs/package.json");
+		it("should fail if 'import' entry type value doesn't end with .mjs without package.json type module", async () => {
+			const out = await run("object-mjs-1/package.json");
 			assert(/FAIL/.test(out), out);
+		});
+
+		it("should accept if 'import' entry type value end with .js and package.json type module", async () => {
+			const out = await run("object-mjs-2/package.json");
+			assert(/PASS/.test(out), out);
 		});
 
 		describe("Format ordering", () => {

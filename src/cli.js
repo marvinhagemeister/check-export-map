@@ -200,7 +200,11 @@ for (const file of files) {
 						relative,
 						`Entry type must not start with a dot. Got "${type}"`,
 					);
-				} else if (type === "import" && !value[type].endsWith(".mjs")) {
+				} else if (
+					type === "import" &&
+					!value[type].endsWith(".mjs") &&
+					pkg.type !== "module"
+				) {
 					error(
 						relative,
 						`Value of entry type "import" must end with ".mjs". Got ${value[type]} instead`,
